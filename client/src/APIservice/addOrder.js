@@ -2,6 +2,7 @@ const addOrder = async payload => {
   const data = await fetch(`http://localhost:3200/api/orders/createOrder`, {
     method: "POST",
     headers: {
+      mode: "cors",
       "Content-type": "application/json",
       "Accept-Charset": "utf-8",
     },
