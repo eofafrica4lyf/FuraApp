@@ -1,6 +1,6 @@
 const getOrders = async dispatch => {
   try {
-    let data = await fetch(`http://localhost:3200/api/orders/`, {
+    let data = await fetch(`/api/orders/`, {
       method: "GET",
       headers: {
         mode: "cors",

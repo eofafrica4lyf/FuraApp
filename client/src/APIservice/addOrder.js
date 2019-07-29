@@ -1,5 +1,5 @@
 const addOrder = async payload => {
-  const data = await fetch(`http://localhost:3200/api/orders/createOrder`, {
+  const data = await fetch(`/api/orders/createOrder`, {
     method: "POST",
     headers: {
       mode: "cors",
