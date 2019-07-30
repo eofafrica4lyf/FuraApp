@@ -5,6 +5,7 @@ const removeOrder = async payload => {
       mode: "cors",
       "Content-type": "application/json",
       "Accept-Charset": "utf-8",
+      "x-auth-token": payload.jwt.token,
     },
     body: JSON.stringify(payload),
   });
