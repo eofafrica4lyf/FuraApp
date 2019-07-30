@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { authContext } from "../contexts/authContext";
 
 function LoginLogoutButton() {
@@ -10,6 +10,12 @@ function LoginLogoutButton() {
     setIsLoggedIn(false);
     console.log(isLoggedIn);
   };
+
+  useEffect(() => {
+    if (localStorage.jwt) {
+      setIsLoggedIn(true);
+    }
+  });
 
   return isLoggedIn ? (
     <div

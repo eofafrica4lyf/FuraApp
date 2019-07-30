@@ -6,10 +6,22 @@ import getOrders from "../APIservice/getOrders";
 function OrderDetails({ order }) {
   const { dispatch } = useContext(OrderContext);
   // console.log(order);
+  // console.log(JSON.parse(localStorage.jwt));
 
   const handleOrderRemoval = async e => {
-    await removeOrder({ orderID: order._id });
-    await getOrders(dispatch);
+    if (localStorage.jwt) {
+      await removeOrder({
+        orderID: order._id,
+        jwt: JSON.parse(localStorage.jwt),
+      });
+      await getOrders(dispatch);
+    } else {
+      document.querySelector("#delete-error").style.display = "block";
+      setTimeout(() => {
+        document.querySelector("#delete-error").style.display = "none";
+      }, 3000);
+      return;
+    }
   };
 
   return (

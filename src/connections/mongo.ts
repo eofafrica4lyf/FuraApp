@@ -68,13 +68,15 @@ export async function createOrder(payload: any) {
 
 export async function removeOrder(payload: any) {
   const result = await Order.deleteOne({ _id: payload.orderID });
+  console.log("payload");
+  console.log(payload);
   console.log({ _id: payload.orderID });
   console.log(result);
   console.log("Order was removed from the database");
 }
 
 export async function loginAdmin(payload: any) {
-  console.log(payload);
+  // console.log(payload);
   const { error } = validateUser(payload);
   if (error) return { message: error.details[0].message };
 
@@ -82,8 +84,8 @@ export async function loginAdmin(payload: any) {
   console.log(payload.email);
 
   let user = await User.findOne({ email: payload.email });
-  console.log("user");
-  console.log(user);
+  // console.log("user");
+  // console.log(user);
   // We send 400 as a status code so that we do not let the user know whether it's
   // the username or password that is wrong
   if (!user) return { message: "Invalid email or password" };
@@ -93,7 +95,7 @@ export async function loginAdmin(payload: any) {
 
   //encapsulating logic in mongoose
   const token = user.generateAuthToken();
-  console.log(token);
+  // console.log(token);
 
   return { id: user._id, token };
 }

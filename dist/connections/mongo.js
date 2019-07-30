@@ -69,20 +69,22 @@ async function createOrder(payload) {
 exports.createOrder = createOrder;
 async function removeOrder(payload) {
   const result = await Order.deleteOne({ _id: payload.orderID });
+  console.log("payload");
+  console.log(payload);
   console.log({ _id: payload.orderID });
   console.log(result);
   console.log("Order was removed from the database");
 }
 exports.removeOrder = removeOrder;
 async function loginAdmin(payload) {
-  console.log(payload);
+  // console.log(payload);
   const { error } = validateUser(payload);
   if (error) return { message: error.details[0].message };
   // Ensure that user is not already registered
   console.log(payload.email);
   let user = await User.findOne({ email: payload.email });
-  console.log("user");
-  console.log(user);
+  // console.log("user");
+  // console.log(user);
   // We send 400 as a status code so that we do not let the user know whether it's
   // the username or password that is wrong
   if (!user) return { message: "Invalid email or password" };
@@ -90,7 +92,7 @@ async function loginAdmin(payload) {
     return { message: "Invalid email or password" };
   //encapsulating logic in mongoose
   const token = user.generateAuthToken();
-  console.log(token);
+  // console.log(token);
   return { id: user._id, token };
 }
 exports.loginAdmin = loginAdmin;

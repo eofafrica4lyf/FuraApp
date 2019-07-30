@@ -1,10 +1,19 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useCallback, useState } from "react";
 import { OrderContext } from "../contexts/orderContext";
 import { Link } from "react-router-dom";
 
 function Navbar() {
-  const { orders } = useContext(OrderContext);
-  console.log(orders);
+  let { orders } = useContext(OrderContext);
+  let [list, setList] = useState([]);
+
+  const resolveOrders = useCallback(async () => {
+    let ordersList = await orders;
+    setList(ordersList);
+  }, [orders]);
+
+  useEffect(() => {
+    resolveOrders();
+  }, [orders, resolveOrders]);
 
   return (
     <div className="navbar">
@@ -24,7 +33,10 @@ function Navbar() {
           </Link>
         </span>
       </h1>
-      <p>There are currently {orders.length || "no"} orders</p>
+      <p>
+        {list.length || "No"}{" "}
+        {list.length > 1 ? "orders waiting" : "order waiting"}
+      </p>
     </div>
   );
 }

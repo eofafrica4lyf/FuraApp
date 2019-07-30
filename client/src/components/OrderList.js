@@ -17,6 +17,12 @@ function OrderList() {
 
   return list.length > 0 ? (
     <div className="order-list">
+      <div id="delete-error">
+        <p style={{ color: "#ff781b" }}>
+          Clicking on a order deletes the order. You must be an admin to delete
+          an order
+        </p>
+      </div>
       <ul>
         {list.map(order => {
           return <OrderDetails order={order} key={order._id || order.id} />;
