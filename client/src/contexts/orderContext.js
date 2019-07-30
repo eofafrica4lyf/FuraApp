@@ -8,9 +8,12 @@ const OrderContextProvider = props => {
   const [orders, dispatch] = useReducer(orderReducer, []);
 
   useEffect(() => {
-    getOrders(dispatch);
-    document.querySelector("#name").focus();
-    document.querySelector("#name").select();
+    if (window.location.pathname === "/") {
+      getOrders(dispatch);
+      document.querySelector("#name").focus();
+      document.querySelector("#name").select();
+    } else {
+    }
   }, []);
   return (
     <OrderContext.Provider value={{ orders, dispatch }}>

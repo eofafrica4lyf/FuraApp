@@ -12,15 +12,13 @@ function OrderForm() {
   const handleOrderFormSubmit = async e => {
     e.preventDefault();
     if (name.length <= 3 || !/^[a-zA-Z]*$/.test(name)) {
-      setErrors(
-        errors + "\nPlease input a valid name with at least 3 characters"
-      );
+      setErrors("Please input a valid name with at least 3 characters");
       document.querySelector("#name").focus();
       document.querySelector("#name").select();
       return;
     }
     if (name.length > 15) {
-      setErrors(errors + "\nPlease input a name with 15 characters or less");
+      setErrors("Please input a name with 15 characters or less");
       document.querySelector("#name").focus();
       document.querySelector("#name").select();
       return;

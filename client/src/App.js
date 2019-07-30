@@ -1,20 +1,24 @@
 import React from "react";
 import "./App.css";
 import Navbar from "./components/Navbar";
-import OrderForm from "./components/OrderForm";
-import OrderList from "./components/OrderList";
+
 import OrderContextProvider from "./contexts/orderContext";
+import { BrowserRouter as Router, Route } from "react-router-dom";
+import Home from "./components/Home";
+import Login from "./components/Login";
 
 function App() {
-    return (
-        <div className="App">
-            <OrderContextProvider>
-                <Navbar />
-                <OrderForm />
-                <OrderList />
-            </OrderContextProvider>
-        </div>
-    );
+  return (
+    <Router>
+      <div className="App">
+        <OrderContextProvider>
+          <Navbar />
+          <Route exact path="/" component={Home} />
+          <Route path="/admin" component={Login} />
+        </OrderContextProvider>
+      </div>
+    </Router>
+  );
 }
 
 export default App;
