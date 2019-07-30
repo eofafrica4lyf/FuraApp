@@ -11,18 +11,33 @@ function OrderForm() {
 
   const handleOrderFormSubmit = async e => {
     e.preventDefault();
-    if (name.length <= 3) {
+    if (name.length <= 3 || !/^[a-zA-Z]*$/.test(name) || name.length > 20) {
       setErrors(errors + "\nPlease input a valid name");
       document.querySelector("#name").focus();
       document.querySelector("#name").select();
       return;
     }
-    if (noOfOrders === 0 || parseInt(noOfOrders) !== parseFloat(noOfOrders)) {
+    if (noOfOrders === 0) {
       setErrors("You must specify the number of bottles to be ordered");
       document.querySelector("#noOfOrders").focus();
       document.querySelector("#noOfOrders").select();
       return;
     }
+    if (noOfOrders > 10) {
+      setErrors("You can only order up to 10 bottles");
+      document.querySelector("#noOfOrders").focus();
+      document.querySelector("#noOfOrders").select();
+      return;
+    }
+    if (parseInt(noOfOrders) !== parseFloat(noOfOrders)) {
+      setErrors("Please enter a valid input");
+      document.querySelector("#noOfOrders").focus();
+      document.querySelector("#noOfOrders").select();
+      return;
+    }
+
+    document.querySelector("#name").disabled = true;
+    document.querySelector("#noOfOrders").disabled = true;
     console.log(name, noOfOrders);
     const payload = {
       name,
@@ -34,6 +49,8 @@ function OrderForm() {
 
     setNoOfOrders(0);
     setName("");
+    document.querySelector("#name").disabled = false;
+    document.querySelector("#noOfOrders").disabled = false;
     document.querySelector("#name").focus();
     document.querySelector("#name").select();
   };
