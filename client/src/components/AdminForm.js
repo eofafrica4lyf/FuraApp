@@ -5,8 +5,8 @@ import { authContext } from "../contexts/authContext";
 function AdminForm({ passed }) {
   const [loginErrors, setLoginErrors] = useState("");
   const { setIsLoggedIn } = useContext(authContext);
-  const [adminEmail, setAdminEmail] = useState("aboderinemmanuel@gmail.com");
-  const [adminPassword, setPasswordHandler] = useState("12345610987");
+  const [adminEmail, setAdminEmail] = useState("");
+  const [adminPassword, setPasswordHandler] = useState("");
 
   const handleAdminLogin = async e => {
     e.preventDefault();
