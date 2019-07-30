@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { OrderContext } from "../contexts/orderContext";
 import { Link } from "react-router-dom";
 

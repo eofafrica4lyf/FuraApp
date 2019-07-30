@@ -1,11 +1,34 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import adminLogin from "../APIservice/adminLogin";
+import { authContext } from "../contexts/authContext";
 
-function AdminForm() {
+function AdminForm({ passed }) {
   const [loginErrors, setLoginErrors] = useState("");
-  const [adminEmail, setAdminEmail] = useState("");
-  const [adminPassword, setPasswordHandler] = useState("");
+  const { setIsLoggedIn } = useContext(authContext);
+  const [adminEmail, setAdminEmail] = useState("aboderinemmanuel@gmail.com");
+  const [adminPassword, setPasswordHandler] = useState("12345610987");
 
-  const handleAdminLogin = () => {};
+  const handleAdminLogin = async e => {
+    e.preventDefault();
+    console.log("User is attempting to login");
+
+    if (
+      !/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+        adminEmail
+      )
+    ) {
+      setLoginErrors("Please input a valid email");
+      document.querySelector("#email").focus();
+      document.querySelector("#email").select();
+      return;
+    }
+
+    await adminLogin({ email: adminEmail, password: adminPassword });
+    console.log("You are logged in");
+
+    setIsLoggedIn(true);
+    passed.history.push("/");
+  };
   const adminEmailHandler = e => {
     setAdminEmail(e.target.value);
   };

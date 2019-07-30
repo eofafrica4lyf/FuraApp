@@ -11,8 +11,14 @@ function OrderForm() {
 
   const handleOrderFormSubmit = async e => {
     e.preventDefault();
-    if (name.length <= 3 || !/^[a-zA-Z]*$/.test(name)) {
+    if (name.length <= 3) {
       setErrors("Please input a valid name with at least 3 characters");
+      document.querySelector("#name").focus();
+      document.querySelector("#name").select();
+      return;
+    }
+    if (!/^[a-zA-Z]*$/.test(name)) {
+      setErrors("Please input a valid name");
       document.querySelector("#name").focus();
       document.querySelector("#name").select();
       return;
@@ -70,7 +76,7 @@ function OrderForm() {
   };
 
   useEffect(() => {
-    if (name.length > 3) {
+    if (name.length > 3 || name.length <= 15) {
       setErrors("");
     }
   }, [name]);
