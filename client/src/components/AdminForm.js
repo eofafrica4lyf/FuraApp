@@ -47,7 +47,7 @@ function AdminForm({ passed }) {
       />
       <input
         id="password"
-        type="text"
+        type="password"
         placeholder="Password ..."
         value={adminPassword}
         onChange={adminPasswordHandler}
