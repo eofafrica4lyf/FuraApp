@@ -58,6 +58,7 @@ function OrderForm() {
     const payload = {
       name,
       noOfOrders,
+      createdAt: new Date(),
     };
 
     await addOrder(payload);
