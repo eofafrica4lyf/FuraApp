@@ -3,12 +3,10 @@ import { authContext } from "../contexts/authContext";
 
 function LoginLogoutButton() {
   const { isLoggedIn, setIsLoggedIn } = useContext(authContext);
-  console.log(isLoggedIn);
 
   const handleLogout = e => {
     localStorage.clear();
     setIsLoggedIn(false);
-    console.log(isLoggedIn);
   };
 
   useEffect(() => {

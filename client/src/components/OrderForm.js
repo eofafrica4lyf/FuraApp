@@ -57,7 +57,6 @@ function OrderForm() {
 
     document.querySelector("#name").disabled = true;
     document.querySelector("#noOfOrders").disabled = true;
-    console.log(name, noOfOrders);
     const payload = {
       name,
       noOfOrders,
@@ -102,8 +101,6 @@ function OrderForm() {
   }, [name]);
 
   useEffect(() => {
-    console.log(noOfOrders);
-
     if (
       typeof parseInt(noOfOrders) !== "number" ||
       isNaN(parseInt(noOfOrders))

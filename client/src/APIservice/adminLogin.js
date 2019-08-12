@@ -10,10 +10,7 @@ const adminLogin = async payload => {
       body: JSON.stringify(payload),
     });
     let result = await data.json();
-    console.log("result");
     localStorage.setItem("jwt", JSON.stringify(result));
-    console.log("Admin result");
-    console.log(result);
     return result;
   } catch (err) {
     console.error(err);

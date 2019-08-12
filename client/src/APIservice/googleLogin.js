@@ -61,7 +61,6 @@ const googleLogin = async payload => {
       console.log("result2");
       console.log(result2);
       return result2;
-      // localStorage.setItem("jwt", JSON.stringify(result));
     }
   } catch (err) {
     console.error(err);

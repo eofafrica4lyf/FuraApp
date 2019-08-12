@@ -6,8 +6,6 @@ import green_blinking_light from "../img/blinking_green.gif";
 
 function OrderDetails({ order }) {
   const { dispatch } = useContext(OrderContext);
-  // console.log(order);
-  // console.log(JSON.parse(localStorage.jwt));
 
   const handleOrderRemoval = async e => {
     if (localStorage.jwt) {

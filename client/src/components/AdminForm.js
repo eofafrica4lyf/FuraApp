@@ -10,7 +10,6 @@ function AdminForm({ passed }) {
 
   const handleAdminLogin = async e => {
     e.preventDefault();
-    console.log("User is attempting to login");
 
     if (
       !/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
@@ -30,7 +29,6 @@ function AdminForm({ passed }) {
     if (result.message === "Invalid email or password") {
       return;
     }
-    console.log("You are logged in");
 
     setIsLoggedIn(true);
     passed.history.push("/");
