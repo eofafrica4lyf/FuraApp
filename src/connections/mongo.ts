@@ -59,40 +59,25 @@ const User = mongoose.model<any>("User", userSchema);
 
 export async function getOrders() {
   const result = await Order.find();
-  console.log(result);
 
   return result;
 }
 
 export async function createOrder(payload: any) {
-  console.log("result");
   const order = new Order(payload);
 
   const result = await order.save();
-  console.log(result);
-  console.log("Contact was saved to the database");
   return order;
 }
 
 export async function removeOrder(payload: any) {
   try {
     const result: any = await Order.deleteOne({ _id: payload.orderID });
-    console.log(result);
 
     return { data: "Order was deleted", deleted: true };
-    // if(result.deleteCount > 0){
-    // }else{
-    //   throw new Error("Order was not deleted!")
-    // }
   } catch (error) {
     return { data: "Order was not deleted", deleted: false };
   }
-  // console.log("payload");
-  // console.log(payload);
-  // console.log({ _id: payload.orderID });
-  // console.log("resulttyuytyut");
-  // console.log(result);
-  // console.log("Order was removed from the database");
 }
 
 export async function loginAdmin(payload: any) {
@@ -101,13 +86,9 @@ export async function loginAdmin(payload: any) {
   if (error) return { message: error.details[0].message };
 
   // Ensure that user is not already registered
-  console.log(payload.email);
 
   let user = await User.findOne({ email: payload.email });
-  // console.log("user");
-  // console.log(user);
-  // We send 400 as a status code so that we do not let the user know whether it's
-  // the username or password that is wrong
+
   if (!user) return { message: "Invalid email or password" };
 
   if (payload.password !== user.password)
@@ -115,15 +96,11 @@ export async function loginAdmin(payload: any) {
 
   //encapsulating logic in mongoose
   const token = user.generateAuthTokenAdmin();
-  console.log("token");
-  console.log(token);
 
   return { id: user._id, name: user.name, token };
 }
 
 export async function loginUser(payload: any) {
-  console.log("payload");
-  console.log(payload);
   const { name, email } = payload;
   let user = await User.findOne({ email: payload.email });
   if (!user) {
@@ -133,11 +110,9 @@ export async function loginUser(payload: any) {
       password: "password",
     });
   }
-  console.log("user");
-  console.log(user);
+
   //encapsulating logic in mongoose
   const token = user.generateAuthTokenUser();
-  console.log(token);
 
   // return { message: "Invalid email or password" };
   return { id: user._id, name: user.name, email: user.email, token };
