@@ -16,6 +16,7 @@ const fs_1 = __importDefault(require("fs"));
 const index_1 = __importDefault(require("./routes/index"));
 const orders_1 = __importDefault(require("./routes/orders"));
 const admin_1 = __importDefault(require("./routes/admin"));
+const user_1 = __importDefault(require("./routes/user"));
 var app = express_1.default();
 // view engine setup
 app.set("views", path_1.default.join(__dirname, "../views"));
@@ -49,6 +50,7 @@ app.use(express_1.default.static(path_1.default.join(__dirname, "public")));
 app.use("/api", index_1.default);
 app.use("/api/orders", orders_1.default);
 app.use("/api/admin", admin_1.default);
+app.use("/api/user", user_1.default);
 const clientDirectory = path_1.default.join(__dirname, "../", "client/build");
 if (
   fs_1.default.existsSync(clientDirectory) &&

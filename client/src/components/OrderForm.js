@@ -5,8 +5,15 @@ import getOrders from "../APIservice/getOrders";
 
 function OrderForm() {
   const { dispatch } = useContext(OrderContext);
-  const [name, setName] = useState("");
-  const [noOfOrders, setNoOfOrders] = useState(0);
+  const [name, setName] = useState(() => {
+    if (localStorage.jwt) {
+      return JSON.parse(localStorage.jwt).name;
+    } else {
+      return "";
+    }
+  });
+  const [noOfOrders, setNoOfOrders] = useState(1);
+  const [orderType, setOrderType] = useState("Fura");
   const [errors, setErrors] = useState("");
 
   const handleOrderFormSubmit = async e => {
@@ -17,11 +24,7 @@ function OrderForm() {
       document.querySelector("#name").select();
       return;
     }
-    if (
-      !/^(?<title>.*\.\s)*(?<firstname>([A-Z][a-z]+\s*)+)(\s)(?<lastname>[A-Z][a-zA-Z-']+)$/.test(
-        name
-      )
-    ) {
+    if (!/^[a-zA-Z]+ [a-zA-Z]+$/.test(name)) {
       setErrors("Please input your full name");
       document.querySelector("#name").focus();
       document.querySelector("#name").select();
@@ -54,13 +57,21 @@ function OrderForm() {
 
     document.querySelector("#name").disabled = true;
     document.querySelector("#noOfOrders").disabled = true;
-    console.log(name, noOfOrders);
     const payload = {
       name,
       noOfOrders,
+      orderType,
+      createdAt: new Date(),
     };
+    let payloadd;
 
-    await addOrder(payload);
+    if (localStorage.jwt) {
+      const { id } = JSON.parse(localStorage.jwt);
+      payloadd = { userId: id, ...payload };
+    } else {
+      payloadd = { userId: null, ...payload };
+    }
+    await addOrder(payloadd);
     await getOrders(dispatch);
 
     setNoOfOrders(0);
@@ -79,6 +90,10 @@ function OrderForm() {
     setNoOfOrders(e.target.value);
   };
 
+  const orderTypeHandler = e => {
+    setOrderType(e.target.value);
+  };
+
   useEffect(() => {
     if (name.length > 3 || name.length <= 15) {
       setErrors("");
@@ -86,8 +101,6 @@ function OrderForm() {
   }, [name]);
 
   useEffect(() => {
-    console.log(noOfOrders);
-
     if (
       typeof parseInt(noOfOrders) !== "number" ||
       isNaN(parseInt(noOfOrders))
@@ -116,6 +129,15 @@ function OrderForm() {
         value={noOfOrders}
         onChange={orderFieldHandler}
       />
+      <select
+        value={orderType}
+        onChange={orderTypeHandler}
+        name="OrderType"
+        id="ordertype"
+      >
+        <option value="Fura">Fura #200</option>
+        <option value="Nunu">Nunu (Milk) #200</option>
+      </select>
       <input type="submit" value="Add order" />
     </form>
   );

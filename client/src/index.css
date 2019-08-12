@@ -6,6 +6,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background: #553055;
+  position: relative;
 }
 
 code {
@@ -65,7 +66,9 @@ code {
 form {
   padding: 20px;
 }
-input[type="text"] {
+input[type="text"],
+input[type="password"],
+select {
   width: 100%;
   padding: 10px;
   box-sizing: border-box;
@@ -73,7 +76,14 @@ input[type="text"] {
   background: #3c1f3c;
   color: #fff;
   border: 0;
+  height: 33px;
+  border-radius: 5px;
 }
+
+select option {
+  height: 40px;
+}
+
 input[type="submit"] {
   margin: 10px auto;
   background: #eee;

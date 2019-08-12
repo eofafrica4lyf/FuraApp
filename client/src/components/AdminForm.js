@@ -10,7 +10,6 @@ function AdminForm({ passed }) {
 
   const handleAdminLogin = async e => {
     e.preventDefault();
-    console.log("User is attempting to login");
 
     if (
       !/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
@@ -23,8 +22,13 @@ function AdminForm({ passed }) {
       return;
     }
 
-    await adminLogin({ email: adminEmail, password: adminPassword });
-    console.log("You are logged in");
+    const result = await adminLogin({
+      email: adminEmail,
+      password: adminPassword,
+    });
+    if (result.message === "Invalid email or password") {
+      return;
+    }
 
     setIsLoggedIn(true);
     passed.history.push("/");
@@ -38,6 +42,9 @@ function AdminForm({ passed }) {
   return (
     <form onSubmit={handleAdminLogin}>
       <div className="error">{loginErrors}</div>
+      <label htmlFor="email" style={{ textAlign: "left", display: "block" }}>
+        Email Address
+      </label>
       <input
         id="email"
         type="text"
@@ -45,9 +52,12 @@ function AdminForm({ passed }) {
         value={adminEmail}
         onChange={adminEmailHandler}
       />
+      <label htmlFor="email" style={{ textAlign: "left", display: "block" }}>
+        Password
+      </label>
       <input
         id="password"
-        type="text"
+        type="password"
         placeholder="Password ..."
         value={adminPassword}
         onChange={adminPasswordHandler}

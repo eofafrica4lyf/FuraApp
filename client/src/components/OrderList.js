@@ -17,10 +17,9 @@ function OrderList() {
 
   return list.length > 0 ? (
     <div className="order-list">
-      <div id="delete-error">
-        <p style={{ color: "#ff781b" }}>
-          Clicking on a order deletes the order. You must be an admin to delete
-          an order
+      <div id="delete-error" style={{ color: "#ff781b" }}>
+        <p id="errorMessage" style={{ color: "#ff781b" }}>
+          You cannot delete this order. Log in to make or delete you order.
         </p>
       </div>
       <ul>

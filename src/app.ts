@@ -10,6 +10,7 @@ import fs from "fs";
 import indexRouter from "./routes/index";
 import ordersRouter from "./routes/orders";
 import adminRouter from "./routes/admin";
+import userRouter from "./routes/user";
 
 var app = express();
 
@@ -49,6 +50,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/api", indexRouter);
 app.use("/api/orders", ordersRouter);
 app.use("/api/admin", adminRouter);
+app.use("/api/user", userRouter);
 
 const clientDirectory = path.join(__dirname, "../", "client/build");
 if (fs.existsSync(clientDirectory) && process.env.NODE_ENV !== "development") {

@@ -10,7 +10,6 @@ const addOrder = async payload => {
   });
   let result = await data.json();
   result = await result.data;
-  console.log({ result });
 };
 
 export default addOrder;
