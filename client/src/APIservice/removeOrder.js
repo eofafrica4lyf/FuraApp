@@ -10,8 +10,10 @@ const removeOrder = async payload => {
     body: JSON.stringify(payload),
   });
   let result = await data.json();
-  result = await result.data;
-  console.log({ result });
+  // result = await result.data;
+  console.log("result from backend");
+  console.log(result);
+  return result;
 };
 
 export default removeOrder;

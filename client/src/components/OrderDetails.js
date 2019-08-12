@@ -11,13 +11,17 @@ function OrderDetails({ order }) {
 
   const handleOrderRemoval = async e => {
     if (localStorage.jwt) {
-      await removeOrder({
+      const result = await removeOrder({
         orderID: order._id,
         jwt: JSON.parse(localStorage.jwt),
       });
+      afterClick(result.data);
       await getOrders(dispatch);
+      return;
     } else {
       document.querySelector("#delete-error").style.display = "block";
+      document.querySelector("#delete-error").textContent =
+        "Clicking on a order deletes the order. You must be an admin to delete an order";
       setTimeout(() => {
         document.querySelector("#delete-error").style.display = "none";
       }, 3000);
@@ -36,10 +40,10 @@ function OrderDetails({ order }) {
       }}
       onClick={handleOrderRemoval}
     >
-      <div className="title">{order.name}</div>
+      <div className="title">{capital_letter(order.name)}</div>
       <div className="noOfOrder">
-        {order.noOfOrders}{" "}
-        {order.noOfOrders > 1 ? "Fura Bottles" : "Fura Bottle"}
+        {order.noOfOrders} {order.orderType === "Fura" ? "Fura" : "Nunu"}
+        {order.noOfOrders > 1 ? " Bottles" : " Bottle"}
       </div>
       <div
         className="date-time"
@@ -83,6 +87,24 @@ function OrderDetails({ order }) {
       </div>
     </li>
   );
+}
+
+function capital_letter(str) {
+  str = str.split(" ");
+
+  for (let i = 0, x = str.length; i < x; i++) {
+    str[i] = str[i][0].toUpperCase() + str[i].substr(1);
+  }
+
+  return str.join(" ");
+}
+
+function afterClick(str) {
+  document.querySelector("#delete-error").style.display = "block";
+  document.querySelector("#delete-error").textContent = str;
+  setTimeout(() => {
+    document.querySelector("#delete-error").style.display = "none";
+  }, 3000);
 }
 
 export default OrderDetails;

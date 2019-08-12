@@ -23,7 +23,13 @@ function AdminForm({ passed }) {
       return;
     }
 
-    await adminLogin({ email: adminEmail, password: adminPassword });
+    const result = await adminLogin({
+      email: adminEmail,
+      password: adminPassword,
+    });
+    if (result.message === "Invalid email or password") {
+      return;
+    }
     console.log("You are logged in");
 
     setIsLoggedIn(true);
@@ -38,6 +44,9 @@ function AdminForm({ passed }) {
   return (
     <form onSubmit={handleAdminLogin}>
       <div className="error">{loginErrors}</div>
+      <label htmlFor="email" style={{ textAlign: "left", display: "block" }}>
+        Email Address
+      </label>
       <input
         id="email"
         type="text"
@@ -45,6 +54,9 @@ function AdminForm({ passed }) {
         value={adminEmail}
         onChange={adminEmailHandler}
       />
+      <label htmlFor="email" style={{ textAlign: "left", display: "block" }}>
+        Password
+      </label>
       <input
         id="password"
         type="password"

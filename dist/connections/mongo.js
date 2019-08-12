@@ -14,8 +14,11 @@ mongoose_1.default
   .then(() => console.log("Connected to MongoDB Atlas!"))
   .catch(err => console.error("Could not connect to MongoDB Atlas...", err));
 const orderSchema = new mongoose_1.default.Schema({
+  userId: String,
   name: String,
   noOfOrders: Number,
+  orderType: String,
+  createdAt: Date,
 });
 const userSchema = new mongoose_1.default.Schema({
   name: {
@@ -40,12 +43,22 @@ const userSchema = new mongoose_1.default.Schema({
   isAdmin: Boolean,
 });
 //Define a method inside the schema
-userSchema.methods.generateAuthToken = function() {
+userSchema.methods.generateAuthTokenAdmin = function() {
   // Generate a new json web token: takes the payload a private key (don't store your
   // secrets in code, but in environment variables)
   // iat determines the age of the jwt
   const token = jsonwebtoken_1.default.sign(
-    { _id: this._id, isAdmin: this.isAdmin },
+    { _id: this._id, isAdmin: true },
+    "jwtPrivateKey"
+  );
+  return token;
+};
+userSchema.methods.generateAuthTokenUser = function() {
+  // Generate a new json web token: takes the payload a private key (don't store your
+  // secrets in code, but in environment variables)
+  // iat determines the age of the jwt
+  const token = jsonwebtoken_1.default.sign(
+    Object.assign({}, this._doc),
     "jwtPrivateKey"
   );
   return token;
@@ -68,12 +81,23 @@ async function createOrder(payload) {
 }
 exports.createOrder = createOrder;
 async function removeOrder(payload) {
-  const result = await Order.deleteOne({ _id: payload.orderID });
-  console.log("payload");
-  console.log(payload);
-  console.log({ _id: payload.orderID });
-  console.log(result);
-  console.log("Order was removed from the database");
+  try {
+    const result = await Order.deleteOne({ _id: payload.orderID });
+    console.log(result);
+    return { data: "Order was deleted", deleted: true };
+    // if(result.deleteCount > 0){
+    // }else{
+    //   throw new Error("Order was not deleted!")
+    // }
+  } catch (error) {
+    return { data: "Order was not deleted", deleted: false };
+  }
+  // console.log("payload");
+  // console.log(payload);
+  // console.log({ _id: payload.orderID });
+  // console.log("resulttyuytyut");
+  // console.log(result);
+  // console.log("Order was removed from the database");
 }
 exports.removeOrder = removeOrder;
 async function loginAdmin(payload) {
@@ -91,11 +115,33 @@ async function loginAdmin(payload) {
   if (payload.password !== user.password)
     return { message: "Invalid email or password" };
   //encapsulating logic in mongoose
-  const token = user.generateAuthToken();
-  // console.log(token);
-  return { id: user._id, token };
+  const token = user.generateAuthTokenAdmin();
+  console.log("token");
+  console.log(token);
+  return { id: user._id, name: user.name, token };
 }
 exports.loginAdmin = loginAdmin;
+async function loginUser(payload) {
+  console.log("payload");
+  console.log(payload);
+  const { name, email } = payload;
+  let user = await User.findOne({ email: payload.email });
+  if (!user) {
+    user = await User.create({
+      name,
+      email,
+      password: "password",
+    });
+  }
+  console.log("user");
+  console.log(user);
+  //encapsulating logic in mongoose
+  const token = user.generateAuthTokenUser();
+  console.log(token);
+  // return { message: "Invalid email or password" };
+  return { id: user._id, name: user.name, email: user.email, token };
+}
+exports.loginUser = loginUser;
 function validateUser(req) {
   const schema = {
     email: joi_1.default
