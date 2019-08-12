@@ -66,13 +66,13 @@ export async function getOrders() {
 export async function createOrder(payload: any) {
   const order = new Order(payload);
 
-  const result = await order.save();
+  await order.save();
   return order;
 }
 
 export async function removeOrder(payload: any) {
   try {
-    const result: any = await Order.deleteOne({ _id: payload.orderID });
+    await Order.deleteOne({ _id: payload.orderID });
 
     return { data: "Order was deleted", deleted: true };
   } catch (error) {
