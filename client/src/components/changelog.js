@@ -4,7 +4,7 @@ function ChangeLog() {
   return (
     <div style={{ textAlign: "left", padding: "2em" }}>
       <h2>Change log</h2>
-      <p>
+      <div>
         <h5>1.0.1</h5>
         <ul>
           <li>Reinforced validations for the inputs fields.</li>
@@ -42,7 +42,7 @@ function ChangeLog() {
           </li>
           <li>Fills in the name field automatically for logged in users.</li>
         </ul>
-      </p>
+      </div>
       <h4>Coming Soon..</h4>
       <ul>
         <li>Users should be able to modify their orders</li>
