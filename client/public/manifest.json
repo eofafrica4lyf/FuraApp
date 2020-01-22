@@ -1,8 +1,7 @@
 {
   "short_name": "The Fura App",
   "name": "The Fura App",
-  "lang": "en-US",
-  "start_url": "/",
+  "start_url": ".",
   "icons": [
     {
       "src": "images/touch/icon-128x128.png",
@@ -27,6 +26,5 @@
   ],
   "display": "standalone",
   "theme_color": "#000000",
-  "background_color": "#ffffff",
-  "scope": "/"
+  "background_color": "#6d3d6d"
 }
